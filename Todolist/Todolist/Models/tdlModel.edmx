@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TDLModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="TDLModelStoreContainer">
+          <EntitySet Name="ListItems" EntityType="TDLModel.Store.ListItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Lists" EntityType="TDLModel.Store.Lists" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="TDLModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ListItems_Lists" Association="TDLModel.Store.FK_ListItems_Lists">
+            <End Role="Lists" EntitySet="Lists" />
+            <End Role="ListItems" EntitySet="ListItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lists_Users" Association="TDLModel.Store.FK_Lists_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Lists" EntitySet="Lists" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ListItems">
+          <Key>
+            <PropertyRef Name="ListItemID" />
+          </Key>
+          <Property Name="ListID" Type="int" Nullable="false" />
+          <Property Name="ItemDescription" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ListItemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Lists">
+          <Key>
+            <PropertyRef Name="ListID" />
+          </Key>
+          <Property Name="ListID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ListName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ListDescription" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_ListItems_Lists">
+          <End Role="Lists" Type="TDLModel.Store.Lists" Multiplicity="1" />
+          <End Role="ListItems" Type="TDLModel.Store.ListItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lists">
+              <PropertyRef Name="ListID" />
+            </Principal>
+            <Dependent Role="ListItems">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lists_Users">
+          <End Role="Users" Type="TDLModel.Store.Users" Multiplicity="1" />
+          <End Role="Lists" Type="TDLModel.Store.Lists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Lists">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TDLModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TDLEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="ListItems" EntityType="TDLModel.ListItems" />
+          <EntitySet Name="Lists" EntityType="TDLModel.Lists" />
+          <EntitySet Name="Users" EntityType="TDLModel.Users" />
+          <AssociationSet Name="FK_ListItems_Lists" Association="TDLModel.FK_ListItems_Lists">
+            <End Role="Lists" EntitySet="Lists" />
+            <End Role="ListItems" EntitySet="ListItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lists_Users" Association="TDLModel.FK_Lists_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Lists" EntitySet="Lists" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ListItems">
+          <Key>
+            <PropertyRef Name="ListItemID" />
+          </Key>
+          <Property Name="ListID" Type="Int32" Nullable="false" />
+          <Property Name="ItemDescription" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ListItemID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Lists" Relationship="TDLModel.FK_ListItems_Lists" FromRole="ListItems" ToRole="Lists" />
+        </EntityType>
+        <EntityType Name="Lists">
+          <Key>
+            <PropertyRef Name="ListID" />
+          </Key>
+          <Property Name="ListID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ListName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="ListDescription" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ListItems" Relationship="TDLModel.FK_ListItems_Lists" FromRole="Lists" ToRole="ListItems" />
+          <NavigationProperty Name="Users" Relationship="TDLModel.FK_Lists_Users" FromRole="Lists" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="Lists" Relationship="TDLModel.FK_Lists_Users" FromRole="Users" ToRole="Lists" />
+        </EntityType>
+        <Association Name="FK_ListItems_Lists">
+          <End Role="Lists" Type="TDLModel.Lists" Multiplicity="1" />
+          <End Role="ListItems" Type="TDLModel.ListItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lists">
+              <PropertyRef Name="ListID" />
+            </Principal>
+            <Dependent Role="ListItems">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lists_Users">
+          <End Role="Users" Type="TDLModel.Users" Multiplicity="1" />
+          <End Role="Lists" Type="TDLModel.Lists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Lists">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TDLModelStoreContainer" CdmEntityContainer="TDLEntities">
+          <EntitySetMapping Name="ListItems">
+            <EntityTypeMapping TypeName="TDLModel.ListItems">
+              <MappingFragment StoreEntitySet="ListItems">
+                <ScalarProperty Name="ListID" ColumnName="ListID" />
+                <ScalarProperty Name="ItemDescription" ColumnName="ItemDescription" />
+                <ScalarProperty Name="ListItemID" ColumnName="ListItemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lists">
+            <EntityTypeMapping TypeName="TDLModel.Lists">
+              <MappingFragment StoreEntitySet="Lists">
+                <ScalarProperty Name="ListID" ColumnName="ListID" />
+                <ScalarProperty Name="ListName" ColumnName="ListName" />
+                <ScalarProperty Name="ListDescription" ColumnName="ListDescription" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TDLModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

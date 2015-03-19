@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Todolist.Models.Lists>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lists of user @ViewBag.Username</h2>
+<div>
+    <h3>@Html.DisplayNameFor(model=>model.ListName)</h3>
+</div>
+<div>
+    <ul>
+        @foreach (var l in Model)
+        {
+            <li>@l.ListName - @l.ListDescription</li>
+        }
+    </ul>
+    @using (Html.BeginForm("_Submit", "Lists", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Action("_ListsForm", "Lists", new {userId = ViewBag.UserId})
+    }
+    
+</div>
